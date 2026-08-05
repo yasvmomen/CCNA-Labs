@@ -1,0 +1,170 @@
+
+////////////////// SW1, SW2, SW3, SW4 configuration :
+"/" = or
+
+set new name :
+
+hostname SW1/2/3/4
+
+create VLANs :
+
+vlan 10/20/30/40/50/60/70(name MGMT / this vlan have no interface)/80 (server)
+
+set access mode :
+
+int range fa 0/3-4
+switchport mode access 
+
+set trunk mode :
+
+int range fa 0/1-2
+switchport mode trunk 
+
+set VLANs :
+
+int fa 0/3
+switchport access vlan 10/30/50
+
+int fa 0/4
+switchport access vlan 20/40/60
+
+int vlan 70
+ip address 192.168.70.2(3/4/5/6) 255.255.255.0
+conf t
+ip default-gateway 192.168.70.1 (MLS vlan 70 ip)
+
+
+only on SW3 :
+int fa 0/5 
+switchport mode access 
+switchport access vlan 80 (Server VLAN)
+
+
+///////////////////////// PortFast config :
+
+Access Layer SW :
+
+
+SW1 : This SW is Root in VLAN 10, 20
+
+SW1(config)#int range fa 0/3-4
+SW1(config-if-range)#spanning-tree portfast 
+SW1(config-if-range)#spanning-tree bpduguard enable 
+SW1(config-if-range)#exit
+
+SW2 :
+
+SW2(config)#int range fa 0/3-4
+SW2(config-if-range)#spanning-tree portfast 
+SW2(config-if-range)#spanning-tree bpduguard enable 
+SW2(config-if-range)#exit
+
+
+SW3 : This SW is Root in VLAN 50, 60, 70, 80
+
+SW3(config)#int fa 0/4
+SW3(config-if)#spanning-tree portfast 
+SW3(config-if)#spanning-tree bpduguard enable 
+SW3(config-if)#exit
+
+
+
+///////////////////////// port-securityconfig :
+
+SW1 :
+
+SW1(config)#int fa 0/3
+SW1(config-if)#switchport port-security 
+SW1(config-if)#switchport port-security maximum 1
+SW1(config-if)#switchport port-security mac-address sticky 
+SW1(config-if)#exit
+
+
+
+
+
+///////////////////////// aggrigation SW config :
+
+
+all interfaces in trunk mode :
+
+int range fa 0/1-4
+switchport mode trunk 
+
+create all the VLANs :
+vlan 10/20/30/40/50/60/70(name MGMT / this vlan have no interface)
+
+
+/////////////////////// MLS config :
+
+create all Vlans : 
+vlan 10,20,30,40,50,60/70(name MGMT)
+
+set Gateways :
+int vlan 10
+ip address 192.168.10.1 255.255.255.0
+
+int vlan 20
+ip address 192.168.20.1 255.255.255.0
+
+int vlan 30
+ip address 192.168.30.1 255.255.255.0
+
+int vlan 40
+ip address 192.168.40.1 255.255.255.0
+
+int vlan 50
+ip address 192.168.50.1 255.255.255.0
+
+int vlan 60
+ip address 192.168.60.1 255.255.255.0
+
+vlan 70 
+name MGMT
+ip address 192.168.70.1 255.255.255.0
+
+int vlan 80
+ip address 192.168.80.1 255.255.255.0
+
+active ip route :
+ip routing
+
+//////////////////// active ssh :
+
+set hostname for all SWs
+
+username ccna secret ccna  or  username ccna privilege 15 secret ccna
+enable secret ccna
+line console 0
+login local
+ip domain-name tamrin4
+crypto key generate rsa general-keys maudle 2048
+ip ssh version 2
+line vty 0 15
+login local
+transput input ssh
+
+
+/////////////////// Radius Server
+
+aaa new-model
+radius-server host 192.168.80.2 key admin123
+aaa authentication login default group radius local
+line vty 0 15
+login authentication default
+
+///////////////// device hardening
+
+int range fa 0/5-24
+shutdown
+
+native vlan :
+vlan 2
+name native
+
+int range fa 0/1-2
+switchport trunk native vlan 2
+switchport nonegotiate 
+
+int range fa 0/3-4
+no cdp enable
