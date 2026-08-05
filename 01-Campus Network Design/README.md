@@ -35,14 +35,16 @@
 ![](images/3.png)
 
 
-- Port Security
+##Port Security
 
 در vlan 10 سیستمی با مک ادرس غیر مجاز سعی داشت به تجهیز متصل شود.
 
 
 ![](images/6.png)
 
+
 به دلیل فعال بودن port security بر روی interface های متصل به End Device ها کل ارتباط آن interface به دلیل رخ دادن Violation قطع شد.
+
 
 ![](images/7.png)
 
@@ -66,4 +68,6 @@ The configuration commands are available in the `Command.txt` file
 
 
 
-## 👩‍💻 Next Episode is about ETHERCHANNEL, TOPOLOGY CHANGES, DHCP SNOOPING AND ... 🎆
+## 👩‍💻🚀 What's Next ... ?
+The Next lab will cover ETHERCHANNEL, STP, TOPOLOGY CHANGES, DHCP SNOOPING AND A LOT MORE ... 
+STAY TUNED ... 🎆
