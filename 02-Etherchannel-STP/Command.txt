@@ -1,0 +1,315 @@
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ SW1_Acc
+
+SW1_Acc(config)#username admin secret admin
+SW1_Acc(config)#line console 0
+SW1_Acc(config-line)#login local 
+SW1_Acc(config)#enable secret ccna
+SW1_Acc(config)#line vty 0 15
+SW1_Acc(config-line)#login local 
+
+
+SW1_Acc(config)#vlan 20
+SW1_Acc(config-vlan)#vlan 30
+SW1_Acc(config-vlan)#vlan 10
+SW1_Acc(config-vlan)#name native
+SW1_Acc(config-vlan)#vlan 100
+SW1_Acc(config-vlan)#name MGMT
+SW1_Acc(config)#int vlan 100
+SW1_Acc(config-if)#ip address 192.168.100.2 255.255.255.0
+SW1_Acc(config)#ip default-gateway 192.168.100.1
+
+
+int range fa 0/1-2
+SW1_Acc(config-if-range)#switchport access vlan 20
+SW1_Acc(config-if-range)#switchport mode access
+
+int range fa 0/3-4
+SW1_Acc(config-if-range)#switchport access vlan 30
+SW1_Acc(config-if-range)#switchport mode access
+
+int fa 0/5
+SW1_Acc(config-if)#switchport mode trunk
+
+
+SW1_Acc(config)#ip domain-name ccnalab
+SW1_Acc(config)#crypto key generate rsa general-keys modulus 2048
+	The name for the keys will be: SW1_Acc.ccnalab
+SW1_Acc(config)#ip ssh version 2
+SW1_Acc(config)#line vty 0 15
+SW1_Acc(config-line)#login local 
+SW1_Acc(config-line)#transport input ssh
+
+
+SW1_Acc(config)#aaa new-model
+SW1_Acc(config)#tacacs-server host 192.168.100.100 key ccna1
+SW1_Acc(config)#aaa authentication login default group tacacs+ local
+SW1_Acc(config)#line vty 0 15
+SW1_Acc(config-line)#login authentication default 
+
+
+
+SW1_Acc#wr
+
+
+
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ SW4_Acc
+
+SW4_Acc(config)#username admin secret admin
+SW4_Acc(config)#line console 0
+SW4_Acc(config-line)#login local
+SW4_Acc(config)#enable secret ccna
+SW4_Acc(config)#line vty 0 15
+SW4_Acc(config-line)#login local
+
+
+SW4_Acc(config)#vlan 90
+SW4_Acc(config-vlan)#vlan 80
+SW4_Acc(config-vlan)#vlan 10
+SW4_Acc(config-vlan)#name native
+
+SW4_Acc(config-vlan)#vlan 100
+SW4_Acc(config-vlan)#name MGMT
+SW4_Acc(config-if)#ip address 192.168.100.5 255.255.255.0
+SW4_Acc(config-if)#exit
+SW4_Acc(config)#ip default-gateway 192.168.100.1
+
+SW4_Acc(config-vlan)#vlan 110
+SW4_Acc(config-vlan)#name Server
+
+SW4_Acc(config)#int range fa 0/1-2
+SW4_Acc(config-if-range)#switchport access vlan 80
+SW4_Acc(config-if-range)#switchport mode access 
+
+SW4_Acc(config)#int range fa 0/3-4
+SW4_Acc(config-if-range)#switchport access vlan 90
+SW4_Acc(config-if-range)#switchport mode access 
+
+SW4_Acc(config)#int fa 0/6
+SW4_Acc(config-if)#switchport access vlan 110
+SW4_Acc(config-if)#switchport mode access 
+
+SW4_Acc(config)#int fa 0/5
+SW4_Acc(config-if)#switchport mode trunk 
+
+SW4_Acc(config)#ip domain-name ccnalab
+SW4_Acc(config)#crypto key generate rsa general-keys modulus 2048
+	The name for the keys will be: SW4_Acc.ccnalab
+SW4_Acc(config)#ip ssh version 2
+SW4_Acc(config)#line vty 0 15
+SW4_Acc(config-line)#login local 
+SW4_Acc(config-line)#transport input ssh 
+
+
+SW4_Acc(config)#aaa new-model 
+SW4_Acc(config)#tacacs-server host 192.168.100.100 key ccna1
+SW4_Acc(config)#aaa authentication login default group tacacs+ local
+SW4_Acc(config)#line vty 0 15
+SW4_Acc(config-line)#login authentication default
+
+
+
+
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ SW1_Agg
+
+SW1_Agg(config)#username admin secret admin
+SW1_Agg(config)#line console 0
+SW1_Agg(config-line)#login local 
+SW1_Agg(config)#enable secret ccna
+SW1_Agg(config)#line vty 0 15
+SW1_Agg(config-line)#login local 
+
+SW1_Agg(config)#vlan 20
+SW1_Agg(config-vlan)#name Department1-1
+SW1_Agg(config-vlan)#vlan 30
+SW1_Agg(config-vlan)#name Department1-2
+SW1_Agg(config-vlan)#vlan 40
+SW1_Agg(config-vlan)#name Department2-1
+SW1_Agg(config-vlan)#vlan 50
+SW1_Agg(config-vlan)#name Department2-2
+SW1_Agg(config-vlan)#vlan 60
+SW1_Agg(config-vlan)#name Department3-1
+SW1_Agg(config-vlan)#vlan 70
+SW1_Agg(config-vlan)#name Department3-2
+SW1_Agg(config-vlan)#vlan 80
+SW1_Agg(config-vlan)#name Department4-1
+SW1_Agg(config-vlan)#vlan 90
+SW1_Agg(config-vlan)#name Department4-2
+SW1_Agg(config-vlan)#vlan 100
+SW1_Agg(config-vlan)#name MGMT
+SW1_Agg(config-vlan)#vlan 10
+SW1_Agg(config-vlan)#name native
+SW1_Agg(config-vlan)#vlan 110
+SW1_Agg(config-vlan)#name Server
+SW1_Agg(config-vlan)#exit
+
+
+SW1_Agg(config)#int vlan 100
+SW1_Agg(config-if)#ip address 192.168.100.6 255.255.255.0
+SW1_Agg(config-if)#exit
+SW1_Agg(config)#ip default-gateway 192.168.100.1
+
+
+SW1_Agg(config)#int range fa 0/1-4
+SW1_Agg(config-if-range)#switchport mode trunk 
+
+SW1_Agg#wr
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ SW2_Agg
+
+SW2_Agg(config)#username admin secret admin
+SW2_Agg(config)#line console 0
+SW2_Agg(config-line)#login local
+SW2_Agg(config)#enable secret ccna
+SW2_Agg(config)#line vty 0 15
+SW2_Agg(config-line)#login local 
+
+
+SW2_Agg(config-vlan)#vlan 20
+SW2_Agg(config-vlan)#name Department1-1
+SW2_Agg(config-vlan)#vlan 30
+SW2_Agg(config-vlan)#name Department1-2
+
+SW2_Agg(config-vlan)#vlan 40
+SW2_Agg(config-vlan)#name Department2-1
+SW2_Agg(config-vlan)#vlan 50
+SW2_Agg(config-vlan)#name Department2-2
+
+SW2_Agg(config-vlan)#vlan 60
+SW2_Agg(config-vlan)#name Department3-1
+SW2_Agg(config-vlan)#vlan 70
+SW2_Agg(config-vlan)#name Department3-2
+
+SW2_Agg(config-vlan)#vlan 80
+SW2_Agg(config-vlan)#name Department4-1
+SW2_Agg(config-vlan)#vlan 90
+SW2_Agg(config-vlan)#name Department4-2
+
+SW2_Agg(config-vlan)#vlan 10
+SW2_Agg(config-vlan)#name native
+
+SW2_Agg(config-vlan)#vlan 100
+SW2_Agg(config-vlan)#name MGMT
+
+SW2_Agg(config-vlan)#vlan 110
+SW2_Agg(config-vlan)#name Server
+
+SW2_Agg(config-vlan)#exit
+
+SW2_Agg(config)#int vlan 100
+SW2_Agg(config-if)#ip address 192.168.100.7 255.255.255.0
+SW2_Agg(config)#ip default-gateway 192.168.100.1
+
+SW2_Agg(config)#int range fa 0/1-4
+SW2_Agg(config-if-range)#switchport mode trunk 
+
+SW2_Agg#wr
+
+
+
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ SW3_Agg
+
+
+SW3_Agg(config)#username admin secret admin
+SW3_Agg(config)#line console 0
+SW3_Agg(config-line)#login  local 
+SW3_Agg(config-line)#exit
+SW3_Agg(config)#enable secret ccna
+SW3_Agg(config)#line vty 0 15
+SW3_Agg(config-line)#login local 
+SW3_Agg(config-line)#exit
+
+
+
+SW3_Agg(config)#int range fa 0/1-3
+SW3_Agg(config-if-range)#switchport mode trunk
+
+
+SW3_Agg(config)#vlan 20
+SW3_Agg(config-vlan)#name Department1-1
+SW3_Agg(config-vlan)#vlan 30
+SW3_Agg(config-vlan)#name Department1-2
+SW3_Agg(config-vlan)#vlan 40
+SW3_Agg(config-vlan)#name Department2-1
+SW3_Agg(config-vlan)#vlan 50
+SW3_Agg(config-vlan)#name Department2-2
+SW3_Agg(config-vlan)#vlan 60
+SW3_Agg(config-vlan)#name Department3-1
+SW3_Agg(config-vlan)#vlan 70
+SW3_Agg(config-vlan)#name Department3-2
+SW3_Agg(config-vlan)#vlan 80
+SW3_Agg(config-vlan)#name Department4-1
+SW3_Agg(config-vlan)#vlan 90
+SW3_Agg(config-vlan)#name Department4-2
+SW3_Agg(config-vlan)#vlan 100
+SW3_Agg(config-vlan)#name MGMT
+SW3_Agg(config-vlan)#vlan 10
+SW3_Agg(config-vlan)#name native
+SW3_Agg(config-vlan)#vlan 110
+SW3_Agg(config-vlan)#name Server
+SW3_Agg(config-vlan)#exit
+SW3_Agg(config)#int vlan 100
+SW3_Agg(config-if)#ip address 192.168.100.8 255.255.255.0
+SW3_Agg(config-if)#exit
+SW3_Agg(config)#ip default-gateway 192.168.100.1
+	
+SW3_Agg(config)#exit
+
+SW3_Agg#wr
+Building configuration...
+[OK]
+
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ Router
+
+
+Router(config)#int gi0/0/0
+Router(config-if)#no shutdown 
+
+
+Router(config)#int gigabitEthernet 0/0/0.20
+Router(config-subif)#encapsulation dot1Q 20
+Router(config-subif)#ip address 192.168.20.1 255.255.255.0
+Router(config-subif)#exit
+
+Router(config)#int gigabitEthernet 0/0/0.30
+Router(config-subif)#encapsulation dot1Q 30
+Router(config-subif)#ip address 192.168.30.1 255.255.255.0
+Router(config-subif)#exit
+
+Router(config)#int gigabitEthernet 0/0/0.40
+Router(config-subif)#encapsulation dot1Q 40
+Router(config-subif)#ip address 192.168.40.1 255.255.255.0
+Router(config-subif)#exit
+
+Router(config)#int gigabitEthernet 0/0/0.50
+Router(config-subif)#encapsulation dot1Q 50
+Router(config-subif)#ip address 192.168.50.1 255.255.255.0
+Router(config-subif)#exit
+
+Router(config)#int gigabitEthernet 0/0/0.60
+Router(config-subif)#encapsulation dot1Q 60
+Router(config-subif)#ip address 192.168.60.1 255.255.255.0
+Router(config-subif)#exit
+
+Router(config)#int gigabitEthernet 0/0/0.70
+Router(config-subif)#encapsulation dot1Q 70
+Router(config-subif)#ip address 192.168.70.1 255.255.255.0
+Router(config-subif)#exit
+
+Router(config)#int gigabitEthernet 0/0/0.80
+Router(config-subif)#encapsulation dot1Q 80
+Router(config-subif)#ip address 192.168.80.1 255.255.255.0
+Router(config-subif)#exit
+
+Router(config)#int gigabitEthernet 0/0/0.90
+Router(config-subif)#encapsulation dot1Q 90
+Router(config-subif)#ip address 192.168.90.1 255.255.255.0
+Router(config-subif)#exit
+
+Router(config)#int gi 0/0/0.100
+Router(config-subif)#encapsulation dot1Q 100
+Router(config-subif)#ip address 192.168.100.1 255.255.255.0
