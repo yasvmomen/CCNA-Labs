@@ -155,6 +155,10 @@ SW1_Agg(config)#ip default-gateway 192.168.100.1
 SW1_Agg(config)#int range fa 0/1-4
 SW1_Agg(config-if-range)#switchport mode trunk 
 
+SW1_Agg(config)#spanning-tree vlan 20 priority 4096
+SW1_Agg(config)#spanning-tree vlan 30 priority 4096
+SW1_Agg(config)#spanning-tree vlan 40 priority 4096
+
 SW1_Agg#wr
 
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ SW2_Agg
@@ -257,6 +261,11 @@ SW3_Agg(config-if)#exit
 SW3_Agg(config)#ip default-gateway 192.168.100.1
 	
 SW3_Agg(config)#exit
+
+
+SW3_Agg(config)#spanning-tree vlan 50 priority 4096
+SW3_Agg(config)#spanning-tree vlan 60 priority 4096
+SW3_Agg(config)#spanning-tree vlan 70 priority 4096
 
 SW3_Agg#wr
 Building configuration...
